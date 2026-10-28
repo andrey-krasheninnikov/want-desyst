@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
-import { BrandLockup, Button, DirectionProvider, ThemeToggle } from '@want-desyst/react';
-import { burstConfetti, initInteractionEffects, initBackgroundMotion } from '@want-desyst/foundation';
+import { BrandLockup, Button, DirectionProvider, ThemeToggle } from '@want-foundation/desyst-react';
+import { burstConfetti, initInteractionEffects, initBackgroundMotion } from '@want-foundation/desyst-foundation';
 import UiKit from './UiKit';
 
 export default function Showcase({ logo }: { logo: string }) {

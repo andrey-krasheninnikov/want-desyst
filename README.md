@@ -4,25 +4,25 @@ Shared design foundations and UI kits for Want products across web and mobile.
 
 ## Packages
 
-- @want-desyst/foundation: JSON tokens, compiled CSS, local fonts, brand assets and opt-in browser effects.
-- @want-desyst/react: React 19 primitives and generic product compositions built on Radix.
+- @want-foundation/desyst-foundation: JSON tokens, compiled CSS, local fonts, brand assets and opt-in browser effects.
+- @want-foundation/desyst-react: React 19 primitives and generic product compositions built on Radix.
 
-Both packages start at version 0.1.0. Keep their versions aligned. The first theme preserves Want Wallpapers; Flutter and other adapters can consume the foundation later.
+Both packages use version 0.1.1 for the first public npm release. Keep their versions aligned. The first theme preserves Want Wallpapers; Flutter and other adapters can consume the foundation later.
 
 ## Install a release
 
 For a published release, install the matching versions:
 
 ```sh
-npm install @want-desyst/foundation@0.1.0 @want-desyst/react@0.1.0 react@^19 react-dom@^19
+npm install @want-foundation/desyst-foundation@0.1.1 @want-foundation/desyst-react@0.1.1 react@^19 react-dom@^19
 ```
 
 Import the stylesheet once in the application's entry point. The font stylesheet is optional and serves its font files locally.
 
 ```tsx
-import '@want-desyst/foundation/styles.css';
-import '@want-desyst/foundation/fonts.css';
-import { Button, Field, FieldLabel, Input } from '@want-desyst/react';
+import '@want-foundation/desyst-foundation/styles.css';
+import '@want-foundation/desyst-foundation/fonts.css';
+import { Button, Field, FieldLabel, Input } from '@want-foundation/desyst-react';
 
 export function Example() {
   return <Field>
@@ -33,7 +33,7 @@ export function Example() {
 }
 ```
 
-No stylesheet copying, source aliases or scanning library sources with Tailwind is required. Consumers may bring their own layout styles through className and override semantic variables intentionally. React and React DOM are peers and are not bundled. A consumer that also uses Tailwind 4 can import @want-desyst/foundation/tailwind.css after Tailwind to register the same semantic utilities for its own source files. This integration is optional; library components already have compiled CSS.
+No stylesheet copying, source aliases or scanning library sources with Tailwind is required. Consumers may bring their own layout styles through className and override semantic variables intentionally. React and React DOM are peers and are not bundled. A consumer that also uses Tailwind 4 can import @want-foundation/desyst-foundation/tailwind.css after Tailwind to register the same semantic utilities for its own source files. This integration is optional; library components already have compiled CSS.
 
 ## Upgrade
 
@@ -41,7 +41,7 @@ Upgrade foundation and React together to the same released version. Read the cha
 
 ## Public contracts
 
-Foundation exports its tokens as JSON at @want-desyst/foundation/tokens.json and as the tokens JavaScript export. The assets export includes @want-desyst/foundation/assets/wallpapers.svg. Importing the JavaScript entry is safe during SSR.
+Foundation exports its tokens as JSON at @want-foundation/desyst-foundation/tokens.json and as the tokens JavaScript export. The assets export includes @want-foundation/desyst-foundation/assets/wallpapers.svg. Importing the JavaScript entry is safe during SSR.
 
 React exports the existing accordion, alert, badge, breadcrumb, button, card, dialog, field, input, label, navigation menu, radio group, select, separator, sheet, skeleton, switch, tabs and textarea families. Their public variants and native element props remain available.
 
@@ -52,7 +52,7 @@ Set data-theme="light" or data-theme="dark" on the document root for explicit se
 ## Optional effects
 
 ```ts
-import { initInteractionEffects, burstConfetti, initBackgroundMotion } from '@want-desyst/foundation';
+import { initInteractionEffects, burstConfetti, initBackgroundMotion } from '@want-foundation/desyst-foundation';
 
 const disposeInteractions = initInteractionEffects();
 const disposeBackground = initBackgroundMotion({ background, control });
@@ -84,9 +84,9 @@ The Astro showcase lives in apps/showcase and uses local fixtures. Browser check
 
 ## Release
 
-Build and verify the final candidate before publishing. Inspect both tarballs, keep only distribution files and license notices, and publish foundation before React with public access. Use the repository release tag v0.1.0 for the initial release. Never overwrite a published version; reconcile a registry response before retrying a timed-out publish.
+Build and verify the final candidate before publishing. Inspect both tarballs, keep only distribution files and license notices, and publish foundation before React with public access. Use the repository release tag v0.1.1 for the initial release. Never overwrite a published version; reconcile a registry response before retrying a timed-out publish.
 
-The initial npm organization is want-desyst. Publishing requires a signed-in owner with the required npm authentication. Credentials never belong in source files. Registry availability is confirmed as part of release, separately from the source merge.
+The npm organization is want-foundation. Publishing requires a signed-in owner with the required npm authentication. Credentials never belong in source files. Registry availability is confirmed as part of release, separately from the source merge.
 
 ## Boundaries and licensing
 

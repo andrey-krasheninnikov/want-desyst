@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+### Changed
+
+- Publish the foundation and React adapter as @want-foundation/desyst-foundation and @want-foundation/desyst-react. Installation examples use the organization-scoped names.
+
 ## 0.1.0
 
 ### Added

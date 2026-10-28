@@ -14,7 +14,7 @@ try {
     const output: unknown = JSON.parse(run('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', directory], resolve(root, 'packages', name)));
     assert(Array.isArray(output) && output.length === 1);
     const record = output[0];
-    assert(record && record.filename === 'want-desyst-' + name + '-0.1.0.tgz');
+    assert(record && record.filename === 'want-foundation-desyst-' + name + '-0.1.1.tgz');
     assert(Array.isArray(record.files));
     for (const file of record.files) {
       assert(typeof file.path === 'string' && !file.path.includes('..') && !file.path.startsWith('/'));
@@ -30,8 +30,8 @@ try {
     "import assert from 'node:assert/strict';",
     "import React from 'react';",
     "import { renderToStaticMarkup } from 'react-dom/server';",
-    "import { Button, MediaCard } from '@want-desyst/react';",
-    "import { tokens, initInteractionEffects, initBackgroundMotion, burstConfetti } from '@want-desyst/foundation';",
+    "import { Button, MediaCard } from '@want-foundation/desyst-react';",
+    "import { tokens, initInteractionEffects, initBackgroundMotion, burstConfetti } from '@want-foundation/desyst-foundation';",
     "assert.equal(typeof document, 'undefined');",
     "assert.equal(tokens.themes.wallpapers.dark.primary, '#5962F0');",
     "assert.equal(typeof initInteractionEffects, 'function');",
@@ -42,7 +42,7 @@ try {
   ].join('\n'));
   run('node', ['check.mjs']);
   await writeFile(join(directory, 'check.tsx'), [
-    "import { Button, ThemeToggle, MediaCard, type ThemeToggleProps } from '@want-desyst/react';",
+    "import { Button, ThemeToggle, MediaCard, type ThemeToggleProps } from '@want-foundation/desyst-react';",
     "const theme: ThemeToggleProps = { theme: 'dark', label: 'Theme', onThemeChange: value => console.log(value) };",
     "const control = <Button variant='secondary' onClick={event => { event.currentTarget.disabled = true; }}>Continue</Button>;",
     "const toggle = <ThemeToggle {...theme} />;",
@@ -51,7 +51,7 @@ try {
     "const invalid = <Button variant='unknown-variant'>Invalid</Button>;"
   ].join('\n'));
   run('node', ['node_modules/typescript/bin/tsc', '--noEmit', '--strict', '--skipLibCheck', '--jsx', 'react-jsx', '--module', 'ESNext', '--moduleResolution', 'Bundler', '--target', 'ES2022', '--resolveJsonModule', 'check.tsx']);
-  const foundation = join(directory, 'node_modules/@want-desyst/foundation');
+  const foundation = join(directory, 'node_modules/@want-foundation/desyst-foundation');
   const css = await readFile(join(foundation, 'dist/index.css'), 'utf8');
   assert(css.includes(':focus-visible') && /#5962f0/i.test(css) && !css.includes('@apply'));
   const fonts = await readFile(join(foundation, 'dist/fonts.css'), 'utf8');
@@ -62,7 +62,7 @@ try {
   const instances = run('npm', ['ls', 'react', '--parseable']).trim().split('\n').filter(path => path.endsWith('/node_modules/react'));
   assert.equal(instances.length, 1);
   await writeFile(join(directory, 'index.html'), '<!doctype html><html lang="en"><head><title>Package consumer</title></head><body><div id="root"></div><script type="module" src="/main.tsx"></script></body></html>');
-  await writeFile(join(directory, 'main.tsx'), "import React from 'react'; import { createRoot } from 'react-dom/client'; import { Button } from '@want-desyst/react'; import '@want-desyst/foundation/styles.css'; import '@want-desyst/foundation/fonts.css'; createRoot(document.getElementById('root')!).render(<Button>Independent consumer</Button>);");
+  await writeFile(join(directory, 'main.tsx'), "import React from 'react'; import { createRoot } from 'react-dom/client'; import { Button } from '@want-foundation/desyst-react'; import '@want-foundation/desyst-foundation/styles.css'; import '@want-foundation/desyst-foundation/fonts.css'; createRoot(document.getElementById('root')!).render(<Button>Independent consumer</Button>);");
   await build({ root: directory, configFile: false, logLevel: 'error' });
   console.log('Packed consumer passed: SSR, types, styles, local fonts/assets, one React instance and production web build.');
 } finally {

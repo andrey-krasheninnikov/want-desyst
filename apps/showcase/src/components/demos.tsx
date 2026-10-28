@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Mail, CodeXml, Flag } from 'lucide-react';
-import { ContactCard, CommentFeed, type CommentItem } from '@want-desyst/react';
+import { ContactCard, CommentFeed, type CommentItem } from '@want-foundation/desyst-react';
 
 export function DemoContact() {
   return <ContactCard name="Example Owner" subtitle="Demo product" actions={[
