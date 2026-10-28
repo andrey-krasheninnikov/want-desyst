@@ -50,7 +50,7 @@ try {
     "const control = <Button variant='secondary' onClick={event => { event.currentTarget.disabled = true; }}>Continue</Button>;",
     "const toggle = <ThemeToggle {...theme} />;",
     "const card = <MediaCard href='/work' title='Work' image={{src:'/work.svg',width:100,height:100,alt:'Work'}} />;",
-    "const labels: DateFieldLabels = { date: 'Date', datetime: 'Date and time', calendar: 'Calendar', previousYear: 'Previous year', previousMonth: 'Previous month', nextMonth: 'Next month', nextYear: 'Next year', hours: 'Hours', minutes: 'Minutes', today: 'Today', clear: 'Clear', apply: 'Apply' };",
+    "const labels: DateFieldLabels = { date: 'Date', datetime: 'Date and time', calendar: 'Calendar', year: 'Year', previousYear: 'Previous year', previousMonth: 'Previous month', nextMonth: 'Next month', nextYear: 'Next year', hours: 'Hours', minutes: 'Minutes', today: 'Today', clear: 'Clear', apply: 'Apply' };",
     "const date = <DateField mode='date' value='2026-10-28' onChange={() => {}} locale='en-GB' labels={labels} />;",
     "const url = <UrlField label='URL' value='https://example.com' onChange={() => {}} openLabel='Open URL' />;",
     "const window = <Window title='Example'>Content</Window>;",
@@ -73,7 +73,7 @@ try {
     "import React from 'react'; import { createRoot } from 'react-dom/client';",
     "import { Button, DateField, UrlField, Window } from '@want-foundation/desyst-react';",
     "import '@want-foundation/desyst-foundation/styles.css'; import '@want-foundation/desyst-foundation/fonts.css';",
-    "const labels = { date: 'Date', datetime: 'Date and time', calendar: 'Calendar', previousYear: 'Previous year', previousMonth: 'Previous month', nextMonth: 'Next month', nextYear: 'Next year', hours: 'Hours', minutes: 'Minutes', today: 'Today', clear: 'Clear', apply: 'Apply' };",
+    "const labels = { date: 'Date', datetime: 'Date and time', calendar: 'Calendar', year: 'Year', previousYear: 'Previous year', previousMonth: 'Previous month', nextMonth: 'Next month', nextYear: 'Next year', hours: 'Hours', minutes: 'Minutes', today: 'Today', clear: 'Clear', apply: 'Apply' };",
     "createRoot(document.getElementById('root')!).render(<Window title='Consumer window'><DateField mode='date' value='2026-10-28' onChange={() => {}} locale='en-GB' labels={labels} /><UrlField label='URL' value='https://example.com' onChange={() => {}} openLabel='Open URL' /><Button>Independent consumer</Button></Window>);"
   ].join('\n'));
   await build({ root: directory, configFile: false, logLevel: 'error' });

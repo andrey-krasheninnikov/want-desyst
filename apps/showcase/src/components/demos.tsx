@@ -3,7 +3,7 @@ import { Mail, CodeXml, Flag } from 'lucide-react';
 import { Button, ContactCard, CommentFeed, DateField, UrlField, Window, type CommentItem, type DateFieldLabels } from '@want-foundation/desyst-react';
 
 const dateLabels: DateFieldLabels = {
-  date: 'Choose date', datetime: 'Choose date and time', calendar: 'Calendar',
+  date: 'Choose date', datetime: 'Choose date and time', calendar: 'Calendar', year: 'Year',
   previousYear: 'Previous year', previousMonth: 'Previous month',
   nextMonth: 'Next month', nextYear: 'Next year',
   hours: 'Hours', minutes: 'Minutes', today: 'Today', clear: 'Clear', apply: 'Apply'

@@ -45,7 +45,7 @@ export function UrlField({ label, value, onChange, onBlur, openLabel, placeholde
   return <div data-slot="url-field" className={cn('ui-url-field', className)}>
     <label className="ui-url-field-label" htmlFor={inputId}>{label}</label>
     <div className="ui-url-field-row">
-      <Input id={inputId} name={name} type="url" inputMode="url" autoComplete="off" value={value} placeholder={placeholder} disabled={disabled} required={required}
+      <Input id={inputId} name={name} type="url" inputMode="url" dir="ltr" autoComplete="off" value={value} placeholder={placeholder} disabled={disabled} required={required}
         onChange={(event) => onChange(event.currentTarget.value)}
         onBlur={onBlur ? (event) => onBlur(event.currentTarget.value) : undefined} />
       {disabled ? null : <OpenUrl href={value} label={openLabel} />}

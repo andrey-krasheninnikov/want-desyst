@@ -6,6 +6,7 @@ const labels: DateFieldLabels = {
   date: 'Choose date',
   datetime: 'Choose date and time',
   calendar: 'Calendar',
+  year: 'Year',
   previousYear: 'Previous year',
   previousMonth: 'Previous month',
   nextMonth: 'Next month',
@@ -33,6 +34,7 @@ test('URL field links only to HTTP(S) destinations', () => {
   const valid = renderToStaticMarkup(<UrlField label="Website" value="https://example.com" openLabel="Open website" onChange={() => {}} />);
   expect(valid).toContain('href="https://example.com"');
   expect(valid).toContain('rel="noopener noreferrer"');
+  expect(valid).toContain('dir="ltr"');
   const invalid = renderToStaticMarkup(<UrlField label="Website" value="javascript:alert(1)" openLabel="Open website" onChange={() => {}} />);
   expect(invalid).not.toContain('data-slot="open-url"');
 });
@@ -46,4 +48,9 @@ test('date field preserves a local date value in its public trigger', () => {
 test('date field keeps wall time unchanged across time zones', () => {
   const html = renderToStaticMarkup(<DateField mode="datetime" value="2026-03-29T02:30" today="2026-03-29T03:00" labels={labels} locale="en-GB" onChange={() => {}} />);
   expect(html).toContain('29 Mar 2026 at 02:30');
+});
+
+test('custom date label includes the selected value', () => {
+  const html = renderToStaticMarkup(<DateField mode="date" value="2026-10-28" ariaLabel="Due date" labels={labels} locale="en-GB" onChange={() => {}} />);
+  expect(html).toContain('aria-label="Due date: 28 Oct 2026"');
 });

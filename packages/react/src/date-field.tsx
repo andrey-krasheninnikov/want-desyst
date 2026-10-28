@@ -7,6 +7,7 @@ export type DateFieldLabels = {
   date: string;
   datetime: string;
   calendar: string;
+  year: string;
   previousYear: string;
   previousMonth: string;
   nextMonth: string;
@@ -143,6 +144,12 @@ export function DateField({ mode, value, onChange, onCommit, labels, locale, tod
     });
   }
 
+  function navigateMonth(delta: number) {
+    const next = moveMonth(focusedDay, delta);
+    setCursor(monthStart(next));
+    setFocusedDay(next);
+  }
+
   const hours = selected?.getUTCHours() ?? now.getUTCHours();
   const minutes = selected?.getUTCMinutes() ?? now.getUTCMinutes();
   const formatter = new Intl.DateTimeFormat(locale, mode === 'date'
@@ -153,11 +160,13 @@ export function DateField({ mode, value, onChange, onCommit, labels, locale, tod
     new Intl.DateTimeFormat(locale, { weekday: 'short', timeZone: 'UTC' }).format(new Date(Date.UTC(2026, 0, 5 + index))));
   const days = calendarDays(cursor);
   const chosen = selected ? dayKey(selected) : '';
+  const firstYear = Math.min(1920, cursor.getUTCFullYear());
+  const lastYear = Math.max(now.getUTCFullYear() + 2, cursor.getUTCFullYear());
 
   return <Popover.Root open={open} onOpenChange={onOpenChange}>
     <div data-slot="date-field" className={className ? 'ui-date-field ' + className : 'ui-date-field'}>
       <Popover.Trigger asChild>
-        <Button type="button" variant="outline" className="ui-date-trigger" disabled={disabled} aria-label={ariaLabel ?? labels[mode] + (selected ? ': ' + formatter.format(selected) : '')}>
+        <Button type="button" variant="outline" className="ui-date-trigger" disabled={disabled} aria-label={(ariaLabel ?? labels[mode]) + (selected ? ': ' + formatter.format(selected) : '')}>
           {selected ? formatter.format(selected) : labels[mode]}
         </Button>
       </Popover.Trigger>
@@ -167,10 +176,13 @@ export function DateField({ mode, value, onChange, onCommit, labels, locale, tod
             {new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(cursor)}
           </div>
           <div className="ui-date-nav">
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousYear} onClick={() => setCursor(monthStart(moveMonth(cursor, -12)))}><ChevronsLeft aria-hidden="true" /></Button>
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousMonth} onClick={() => setCursor(monthStart(moveMonth(cursor, -1)))}><ChevronLeft aria-hidden="true" /></Button>
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextMonth} onClick={() => setCursor(monthStart(moveMonth(cursor, 1)))}><ChevronRight aria-hidden="true" /></Button>
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextYear} onClick={() => setCursor(monthStart(moveMonth(cursor, 12)))}><ChevronsRight aria-hidden="true" /></Button>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousYear} onClick={() => navigateMonth(-12)}><ChevronsLeft aria-hidden="true" /></Button>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousMonth} onClick={() => navigateMonth(-1)}><ChevronLeft aria-hidden="true" /></Button>
+            <select className="ui-date-year" aria-label={labels.year} value={cursor.getUTCFullYear()} onChange={(event) => navigateMonth((Number(event.currentTarget.value) - cursor.getUTCFullYear()) * 12)}>
+              {Array.from({ length: lastYear - firstYear + 1 }, (_, index) => firstYear + index).map((year) => <option key={year} value={year}>{year}</option>)}
+            </select>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextMonth} onClick={() => navigateMonth(1)}><ChevronRight aria-hidden="true" /></Button>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextYear} onClick={() => navigateMonth(12)}><ChevronsRight aria-hidden="true" /></Button>
           </div>
           <table className="ui-date-grid">
             <thead><tr>{weekdays.map((day, index) => <th key={index} scope="col">{day}</th>)}</tr></thead>

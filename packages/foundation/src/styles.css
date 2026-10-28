@@ -306,6 +306,7 @@ html[data-background-motion="running"] .page-background > div::after{ animation-
   .ui-date-heading { margin-bottom:.5rem; text-align:center; font-size:16px; font-weight:600; }
   .ui-date-nav { display:flex; justify-content:space-between; gap:.25rem; margin-bottom:.5rem; }
   .ui-date-nav button { width:44px; height:44px; padding:0; }
+  .ui-date-year { min-width:64px; min-height:44px; padding:0 .25rem; border-radius:var(--radius); background:var(--secondary); color:var(--foreground); font-size:16px; }
   .ui-date-grid { width:100%; border-collapse:collapse; table-layout:fixed; }
   .ui-date-grid th { height:32px; color:var(--muted-foreground); font-size:14px; font-weight:500; }
   .ui-date-grid td { padding:0; text-align:center; }

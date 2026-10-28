@@ -112,8 +112,14 @@ for (const width of [320, 1440]) test('date, URL and window controls work at ' +
   await expect.poll(() => page.evaluate(() => Boolean(document.activeElement?.closest('[data-slot="date-popover"]')))).toBe(true);
   const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
   expect(axe.violations.map(item => item.id)).toEqual([]);
+  await calendar.getByRole('combobox', { name: 'Year' }).selectOption('1990');
+  await expect(calendar.locator('[data-slot="date-day"][tabindex="0"]')).toHaveAttribute('data-day', '1990-10-28');
+  await calendar.getByRole('combobox', { name: 'Year' }).selectOption('2026');
+  await calendar.getByRole('button', { name: 'Next month' }).click();
+  await expect(calendar.locator('[data-slot="date-day"][tabindex="0"]')).toHaveAttribute('data-day', '2026-11-28');
+  await calendar.getByRole('button', { name: 'Previous month' }).click();
   await previousYear.focus();
-  for (let index = 0; index < 4; index++) await page.keyboard.press('Tab');
+  for (let index = 0; index < 5; index++) await page.keyboard.press('Tab');
   await expect(calendar.getByRole('button', { name: /28 October 2026/ })).toBeFocused();
   await page.keyboard.press('ArrowRight');
   await expect(calendar.getByRole('button', { name: /29 October 2026/ })).toBeFocused();
