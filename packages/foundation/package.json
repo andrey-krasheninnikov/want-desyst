@@ -29,9 +29,10 @@
     "./tokens.json": "./tokens.json",
     "./styles.css": "./dist/index.css",
     "./fonts.css": "./dist/fonts.css",
-    "./assets/*": "./dist/assets/*"
+    "./assets/*": "./dist/assets/*",
+    "./tailwind.css": "./dist/tailwind.css"
   },
-  "dependencies": {
+  "devDependencies": {
     "@fontsource-variable/manrope": "5.2.8",
     "@fontsource/days-one": "5.3.0",
     "@fontsource-variable/noto-sans-arabic": "5.3.0",

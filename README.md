@@ -33,7 +33,11 @@ export function Example() {
 }
 ```
 
-No stylesheet copying, source aliases or scanning library sources with Tailwind is required. Consumers may bring their own layout styles through className and override semantic variables intentionally. React and React DOM are peers and are not bundled.
+No stylesheet copying, source aliases or scanning library sources with Tailwind is required. Consumers may bring their own layout styles through className and override semantic variables intentionally. React and React DOM are peers and are not bundled. A consumer that also uses Tailwind 4 can import @want-desyst/foundation/tailwind.css after Tailwind to register the same semantic utilities for its own source files. This integration is optional; library components already have compiled CSS.
+
+## Upgrade
+
+Upgrade foundation and React together to the same released version. Read the changelog and any migration notes, update both dependencies, then run the consumer application's checks. Keep product wrappers and service calls in the consumer.
 
 ## Public contracts
 

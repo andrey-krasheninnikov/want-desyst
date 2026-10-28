@@ -23,3 +23,4 @@ export * from './media-card.js';
 export * from './contact-card.js';
 export * from './theme-toggle.js';
 export * from './comment-feed.js';
+export * from './direction-provider.js';

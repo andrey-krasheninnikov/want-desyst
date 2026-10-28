@@ -1,3 +1,4 @@
+import tokens from '../tokens.json';
 export function initInteractionEffects() {
   const motion = matchMedia('(prefers-reduced-motion: reduce)');
   const pointer = matchMedia('(hover: hover) and (pointer: fine)');
@@ -64,7 +65,7 @@ export function burstConfetti(anchor: HTMLElement): () => void {
     const animation = particle.animate([
       { transform: 'translate(0, 0) rotate(0)', opacity: 1 },
       { transform: 'translate(' + (Math.cos(angle) * distance) + 'px, ' + (Math.sin(angle) * distance + 28) + 'px) rotate(' + (index * 35) + 'deg)', opacity: 0 }
-    ], { duration: 800, easing: 'cubic-bezier(.2,.7,.3,1)' });
+    ], { duration: tokens.motion.confettiMs, easing: 'cubic-bezier(.2,.7,.3,1)' });
     particles.set(particle, animation);
     void animation.finished.catch(() => {}).finally(() => {
       particle.remove(); particles.delete(particle);
