@@ -144,6 +144,12 @@
 .comment-text{ white-space: pre-wrap; line-height: 1.7; overflow-wrap: anywhere; }
 .comment-actions{ display: flex; margin: .5rem 0 0 -.75rem; }
 .media-frame{ position: relative; overflow: hidden; }}
+:where(a, button, input, textarea, select, [role="radio"], [role="switch"], [role="tab"], [role="option"], .comment-feed):focus-visible {
+  outline: 2px solid var(--ring);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--media-ground);
+  transition: none;
+}
 :where(a, button, input, textarea, select):focus-visible :where(svg, .text-muted-foreground, .text-link, small, [data-slot="card-description"]){ color: inherit; }
 :where(input, textarea):focus-visible{ outline: 2px solid var(--ring); outline-offset: 3px; background-color: var(--secondary); color: var(--foreground); }
 :where(input, textarea)::placeholder{ color: var(--muted-foreground); opacity: 1; }

@@ -4,13 +4,13 @@ import { carouselScroll, scrollCarousel } from './carousel-scroll.js';
 import { Button } from './ui/button.js';
 
 export type CommentAction = { id: string; label: string; disabled?: boolean; icon?: ComponentType<SVGProps<SVGSVGElement>> };
-export type CommentItem = { id: string; author: string; text: string; own?: boolean; createdAt?: number; actions?: CommentAction[] };
+export type CommentItem = { id: string; author: string; text: string; own?: boolean; createdAt?: { dateTime: string; label: string }; actions?: CommentAction[] };
 export type CommentFeedProps = {
-  comments: CommentItem[]; locale: string; busy?: boolean;
+  comments: CommentItem[]; busy?: boolean;
   labels: { title: string; empty: string; previous: string; next: string; readMore: string; collapse: string };
   onAction: (commentId: string, actionId: string) => void;
 };
-export function CommentFeed({ comments, locale, labels, busy = false, onAction }: CommentFeedProps) {
+export function CommentFeed({ comments, labels, busy = false, onAction }: CommentFeedProps) {
   const track = useRef<HTMLDivElement>(null);
   const [page, setPage] = useState({ at: 1, total: 1 });
   const step = useRef(0);
@@ -35,7 +35,7 @@ export function CommentFeed({ comments, locale, labels, busy = false, onAction }
     <div ref={track} className="comment-feed" role="group" tabIndex={0} aria-label={labels.title}>
       {comments.length === 0 ? <p className="text-muted-foreground">{labels.empty}</p> : comments.map(item => <article key={item.id} className="comment-row">
         <span className="comment-avatar" data-own={item.own} aria-hidden="true"><UserRound /></span>
-        <div className="min-w-0"><div className="comment-meta"><strong>{item.author}</strong>{item.createdAt !== undefined && <time dateTime={new Date(item.createdAt).toISOString()}>{new Date(item.createdAt).toLocaleDateString(locale)}</time>}</div>
+        <div className="min-w-0"><div className="comment-meta"><strong>{item.author}</strong>{item.createdAt !== undefined && <time dateTime={item.createdAt.dateTime}>{item.createdAt.label}</time>}</div>
           {item.text.length > 240 || item.text.split('\n').length > 6 ? <details className="comment-disclosure">
             <summary><span dir="auto" className="comment-excerpt" aria-hidden="true">{item.text}</span><span className="comment-read">{labels.readMore}</span><span className="comment-collapse">{labels.collapse}</span></summary>
             <p dir="auto" className="comment-text">{item.text}</p>

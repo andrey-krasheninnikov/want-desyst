@@ -55,3 +55,44 @@ test('system theme follows preferences until a visitor makes a choice', async ({
   await page.emulateMedia({ colorScheme: 'light' }); await page.emulateMedia({ colorScheme: 'dark' });
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 });
+
+test('keyboard focus retains a visible outline in both themes', async ({ page }) => {
+  await page.goto('/'); await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
+  for (const checked of [false, true]) {
+    const theme = page.getByRole('switch', { name: 'Dark theme' });
+    if (await theme.isChecked() !== checked) await theme.click();
+    await page.getByRole('link', { name: 'Want Desyst', exact: true }).focus();
+    await page.keyboard.press('Tab');
+    const button = page.getByRole('button', { name: 'Toggle RTL' });
+    await expect(button).toBeFocused();
+    await expect(button).toHaveCSS('outline-style', 'solid');
+    await expect(button).toHaveCSS('outline-width', '2px');
+    await expect(button).toHaveCSS('outline-offset', '3px');
+    await page.keyboard.press('Tab');
+    await expect(theme).toBeFocused();
+    await expect(theme).toHaveCSS('outline-width', '2px');
+  }
+});
+
+test('background disposal pauses retained markup and removes its control', async ({ page }) => {
+  const { readFile } = await import('node:fs/promises');
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.setContent('<div class="page-background" style="height:1000px"><div></div></div><button data-pause-label="Pause" data-play-label="Resume">Pause</button>');
+  await page.addStyleTag({ path: new URL('../packages/foundation/dist/index.css', import.meta.url).pathname });
+  const source = await readFile(new URL('../packages/foundation/dist/index.js', import.meta.url), 'utf8');
+  const state = await page.evaluate(async source => {
+    const url = URL.createObjectURL(new Blob([source], { type: 'text/javascript' }));
+    try {
+      const { initBackgroundMotion } = await import(url);
+      const background = document.querySelector<HTMLElement>('.page-background')!;
+      const control = document.querySelector<HTMLButtonElement>('button')!;
+      const dispose = initBackgroundMotion({ background, control });
+      const before = document.documentElement.dataset.backgroundMotion;
+      background.dataset.backgroundShimmer = '';
+      dispose(); dispose();
+      return { before, after: document.documentElement.dataset.backgroundMotion, hidden: control.hidden,
+        shimmer: background.hasAttribute('data-background-shimmer'), animation: getComputedStyle(background.firstElementChild!).animationPlayState };
+    } finally { URL.revokeObjectURL(url); }
+  }, source);
+  expect(state).toEqual({ before: 'running', after: 'paused', hidden: true, shimmer: false, animation: 'paused' });
+});

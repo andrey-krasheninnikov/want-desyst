@@ -13,11 +13,11 @@ export function DemoComments() {
   const [result, setResult] = useState('');
   const comments: CommentItem[] = Array.from({ length: 10 }, (_, index) => ({
     id: String(index), author: index === 0 ? 'You' : 'Guest ' + (index + 1), own: index === 0,
-    createdAt: Date.UTC(2026, 9, 13 + index),
+    createdAt: { dateTime: new Date(Date.UTC(2026, 9, 13 + index)).toISOString(), label: (13 + index) + ' October 2026' },
     text: index === 2 ? 'A longer demonstration comment. '.repeat(18) : 'A demonstration comment for the component showcase.',
     actions: [{ id: 'report', label: reported.includes(String(index)) ? 'Saved' : 'Report', disabled: reported.includes(String(index)), icon: Flag }]
   }));
-  return <><CommentFeed locale="en" comments={comments} labels={{ title: 'Demo comments', empty: 'No comments yet.', previous: 'Previous comments', next: 'Next comments', readMore: 'Read comment', collapse: 'Collapse comment' }}
+  return <><CommentFeed comments={comments} labels={{ title: 'Demo comments', empty: 'No comments yet.', previous: 'Previous comments', next: 'Next comments', readMore: 'Read comment', collapse: 'Collapse comment' }}
     onAction={(id, action) => { setReported(current => [...current, id]); setResult('Comment ' + id + ': ' + action); }} />
     <p role="status" className="demo-status">{result}</p></>;
 }

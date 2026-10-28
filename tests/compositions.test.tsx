@@ -1,6 +1,6 @@
 import { expect, test } from 'bun:test';
 import { renderToStaticMarkup } from 'react-dom/server';
-import { BrandLockup, MediaCard, ContactCard } from '../packages/react/src/index';
+import { BrandLockup, MediaCard, ContactCard, CommentFeed } from '../packages/react/src/index';
 
 test('a product supplies its own brand and destination', () => {
   const html = renderToStaticMarkup(<BrandLockup name="Example Product" logoSrc="/example.svg" href="/example" />);
@@ -20,4 +20,10 @@ test('contact email remains a native same-tab link', () => {
   const html = renderToStaticMarkup(<ContactCard name="Example Owner" actions={[{ title: 'Email', detail: 'hello@example.com', href: 'mailto:hello@example.com' }]} />);
   expect(html).toContain('href="mailto:hello@example.com"');
   expect(html).not.toContain('target="_blank"');
+});
+
+test('comment dates preserve consumer-prepared text during SSR', () => {
+  const html = renderToStaticMarkup(<CommentFeed comments={[{ id: 'sample', author: 'Guest', text: 'Example', createdAt: { dateTime: '2026-10-13T00:00:00.000Z', label: '13 October 2026' } }]} labels={{ title: 'Comments', empty: 'Empty', previous: 'Previous', next: 'Next', readMore: 'Read', collapse: 'Collapse' }} onAction={() => {}} />);
+  expect(html).toContain('dateTime="2026-10-13T00:00:00.000Z"');
+  expect(html).toContain('>13 October 2026</time>');
 });

@@ -66,6 +66,9 @@ export function initBackgroundMotion({ background, control, storageKey = 'want-b
     if (disposed) return;
     disposed = true;
     stop();
+    root.dataset.backgroundMotion = 'paused';
+    background.removeAttribute('data-background-shimmer');
+    control.hidden = true;
     observer.disconnect();
     control.removeEventListener('click', toggle);
     background.removeEventListener('animationend', finish);
