@@ -1,0 +1,41 @@
+{
+  "version": "0.1.0",
+  "type": "module",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andrey-krasheninnikov/want-desyst.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE",
+    "THIRD_PARTY_NOTICES.md",
+    "tokens.json"
+  ],
+  "sideEffects": [
+    "**/*.css"
+  ],
+  "name": "@want-desyst/foundation",
+  "description": "Shared design tokens, styles, fonts, brand assets and browser effects.",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./tokens.json": "./tokens.json",
+    "./styles.css": "./dist/index.css",
+    "./fonts.css": "./dist/fonts.css",
+    "./assets/*": "./dist/assets/*",
+    "./tailwind.css": "./dist/tailwind.css"
+  },
+  "devDependencies": {
+    "@fontsource-variable/manrope": "5.2.8",
+    "@fontsource/days-one": "5.3.0",
+    "@fontsource-variable/noto-sans-arabic": "5.3.0",
+    "@fontsource-variable/noto-sans-jp": "5.3.1"
+  }
+}
