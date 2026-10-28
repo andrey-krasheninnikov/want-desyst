@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.2
+
+### Added
+
+- Public DateField, UrlField, OpenUrl and Window components with consumer-supplied labels.
+- Calendar keyboard controls, responsive examples and independent package checks.
+
+### Migration
+
+Upgrade foundation and React together to 0.1.2. Existing component calls need no changes. New DateField calls supply a locale and DateFieldLabels; new UrlField calls supply an openLabel.
+
 ## 0.1.1
 
 ### Changed

@@ -17,6 +17,8 @@ body { position:relative; isolation:isolate; min-height:100vh; overflow-x:clip; 
 .showcase-motion p { max-width:65ch; margin-bottom:1rem; line-height:1.7; color:var(--muted-foreground); }
 .locale-example { margin-top:1.5rem; }
 .demo-status { min-height:1.5rem; margin-top:1rem; font-size:14px; color:var(--muted-foreground); }
+.demo-fields { display:grid; gap:1rem; }
+.demo-field-label { display:grid; gap:.5rem; font-size:14px; }
 @media(min-width:900px) { .kit-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
 @media(max-width:399px) { .showcase-header { padding:1rem; border-radius:24px; } .brand-lockup { font-size:1rem; } }
 .kit-section .hero-title { font-size:clamp(2rem,3.5vw,3.125rem); line-height:1.15; letter-spacing:-.045em; }
