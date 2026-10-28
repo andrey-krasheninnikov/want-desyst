@@ -1,5 +1,5 @@
 {
-  "version": "0.1.1",
+  "version": "0.1.2",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -31,7 +31,7 @@
     "react-dom": "^19.0.0"
   },
   "dependencies": {
-    "@want-foundation/desyst-foundation": "0.1.1",
+    "@want-foundation/desyst-foundation": "0.1.2",
     "class-variance-authority": "0.7.1",
     "clsx": "2.1.1",
     "tailwind-merge": "3.7.0",

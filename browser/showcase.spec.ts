@@ -5,7 +5,7 @@ for (const width of [320, 1440]) test('shared kit works independently at ' + wid
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.setViewportSize({ width, height: 1000 }); await page.emulateMedia({ colorScheme: 'dark' }); await page.goto('/');
   await expect(page.getByRole('heading', { name: 'Shared by design.' })).toBeVisible();
-  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
+  await expect(page.locator('astro-island[ssr]')).toHaveCount(0, { timeout: 15000 });
   await page.evaluate(() => document.fonts.ready);
   for (const theme of ['light', 'dark']) {
     const toggle = page.getByRole('switch', { name: 'Dark theme' });
@@ -95,4 +95,51 @@ test('background disposal pauses retained markup and removes its control', async
     } finally { URL.revokeObjectURL(url); }
   }, source);
   expect(state).toEqual({ before: 'running', after: 'paused', hidden: true, shimmer: false, animation: 'paused' });
+});
+
+for (const width of [320, 1440]) test('date, URL and window controls work at ' + width + 'px', async ({ page }, testInfo) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.setViewportSize({ width, height: 900 });
+  await page.emulateMedia({ colorScheme: width === 320 ? 'dark' : 'light', reducedMotion: 'reduce' });
+  await page.goto('/');
+  await expect(page.locator('astro-island[ssr]')).toHaveCount(0, { timeout: 15000 });
+  const window = page.getByRole('region', { name: 'Project planning' });
+  await expect(window.getByRole('heading', { name: 'Project planning' })).toBeVisible();
+  await window.getByRole('button', { name: 'Due date' }).click();
+  const calendar = page.getByRole('dialog', { name: 'Calendar' });
+  await expect(calendar).toBeVisible();
+  const previousYear = calendar.getByRole('button', { name: 'Previous year' });
+  await expect.poll(() => page.evaluate(() => Boolean(document.activeElement?.closest('[data-slot="date-popover"]')))).toBe(true);
+  const axe = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze();
+  expect(axe.violations.map(item => item.id)).toEqual([]);
+  await previousYear.focus();
+  for (let index = 0; index < 4; index++) await page.keyboard.press('Tab');
+  await expect(calendar.getByRole('button', { name: /28 October 2026/ })).toBeFocused();
+  await page.keyboard.press('ArrowRight');
+  await expect(calendar.getByRole('button', { name: /29 October 2026/ })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(window.getByRole('button', { name: 'Due date' })).toContainText('29 Oct 2026');
+  await window.getByRole('button', { name: 'Meeting' }).click();
+  await calendar.getByRole('spinbutton', { name: 'Hours' }).fill('12');
+  await calendar.getByRole('button', { name: 'Apply' }).click();
+  await expect(window.getByRole('button', { name: 'Meeting' })).toContainText('12:30');
+  const url = window.getByRole('textbox', { name: 'Reference URL' });
+  await url.fill('javascript:alert(1)');
+  await expect(window.getByRole('link', { name: 'Open reference URL' })).toHaveCount(0);
+  await url.fill('https://example.com');
+  await expect(window.getByRole('link', { name: 'Open reference URL' })).toHaveAttribute('rel', 'noopener noreferrer');
+  await window.getByRole('button', { name: 'Save example' }).click();
+  await expect(window.getByRole('status')).toHaveText('Example saved locally.');
+  if (width === 1440) {
+    await page.getByRole('button', { name: 'Toggle RTL' }).click();
+    await window.getByRole('button', { name: 'Due date' }).click();
+    await calendar.getByRole('button', { name: /29 October 2026/ }).focus();
+    await page.keyboard.press('ArrowRight');
+    await expect(calendar.getByRole('button', { name: /28 October 2026/ })).toBeFocused();
+    await page.keyboard.press('Escape');
+    await expect(window.getByRole('button', { name: 'Due date' })).toBeFocused();
+  }
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  await page.screenshot({ path: testInfo.outputPath('common-' + width + '.png'), fullPage: true });
+  expect(errors).toEqual([]);
 });

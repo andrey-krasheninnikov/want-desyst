@@ -1,6 +1,33 @@
 import { useState } from 'react';
 import { Mail, CodeXml, Flag } from 'lucide-react';
-import { ContactCard, CommentFeed, type CommentItem } from '@want-foundation/desyst-react';
+import { Button, ContactCard, CommentFeed, DateField, UrlField, Window, type CommentItem, type DateFieldLabels } from '@want-foundation/desyst-react';
+
+const dateLabels: DateFieldLabels = {
+  date: 'Choose date', datetime: 'Choose date and time', calendar: 'Calendar',
+  previousYear: 'Previous year', previousMonth: 'Previous month',
+  nextMonth: 'Next month', nextYear: 'Next year',
+  hours: 'Hours', minutes: 'Minutes', today: 'Today', clear: 'Clear', apply: 'Apply'
+};
+
+export function DemoBriefElements() {
+  const [day, setDay] = useState('2026-10-28');
+  const [meeting, setMeeting] = useState('2026-10-28T10:30');
+  const [url, setUrl] = useState('https://example.com');
+  const [saved, setSaved] = useState('');
+  return <Window title="Project planning" kicker="Shared controls"
+    actions={<Button variant="secondary" onClick={() => setSaved('Example saved locally.')}>Save example</Button>}>
+    <div className="demo-fields">
+      <div className="demo-field-label"><span>Due date</span>
+        <DateField mode="date" value={day} onChange={setDay} labels={dateLabels} locale="en-GB" ariaLabel="Due date" />
+      </div>
+      <div className="demo-field-label"><span>Meeting</span>
+        <DateField mode="datetime" value={meeting} onChange={setMeeting} labels={dateLabels} locale="en-GB" ariaLabel="Meeting" />
+      </div>
+      <UrlField label="Reference URL" value={url} onChange={setUrl} openLabel="Open reference URL" />
+      <p role="status" className="demo-status">{saved}</p>
+    </div>
+  </Window>;
+}
 
 export function DemoContact() {
   return <ContactCard name="Example Owner" subtitle="Demo product" actions={[

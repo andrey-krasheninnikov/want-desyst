@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.2
+
+### Added
+
+- Public DateField, UrlField, OpenUrl and Window components with consumer-supplied labels.
+- Calendar keyboard controls, responsive examples and independent package checks.
+
 ## 0.1.1
 
 ### Changed

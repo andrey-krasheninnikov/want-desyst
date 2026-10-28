@@ -19,7 +19,7 @@ import { Switch } from '@want-foundation/desyst-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@want-foundation/desyst-react';
 import { Textarea } from '@want-foundation/desyst-react';
 import { MediaCard as WallpaperCard, type MediaCardProps as WallpaperCardData } from '@want-foundation/desyst-react';
-import { DemoContact, DemoComments } from './demos';
+import { DemoBriefElements, DemoContact, DemoComments } from './demos';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return <section className="kit-section"><h2>{title}</h2>{children}</section>;
@@ -62,6 +62,7 @@ export default function UiKit({ item }: { item: WallpaperCardData }) {
     <Section title="Cards and gallery"><WallpaperCard {...item} /><Card className="mt-6 bg-secondary"><CardHeader><CardTitle>Download panel</CardTitle><CardDescription>Original PNG for personal use.</CardDescription></CardHeader><CardContent><p className="text-sm text-muted-foreground">Controls share the same button and field variants as the rest of the site.</p></CardContent><CardFooter><Button asChild><a href={item.href}>Open wallpaper</a></Button></CardFooter></Card></Section>
     <Section title="Loading and empty states"><div role="status" aria-label="Loading preview" className="space-y-3"><Skeleton className="aspect-video w-full rounded-xl" /><Skeleton className="h-6 w-2/3" /><Skeleton className="h-4 w-1/2" /></div><div className="h-6" aria-hidden="true" /><p className="text-muted-foreground">No matches yet. Try another word or filter.</p><Button variant="outline" className="mt-4">Reset filters</Button></Section>
     <Section title="Contact card"><DemoContact /></Section>
+    <Section title="Date, URL and page layout"><DemoBriefElements /></Section>
     <Section title="Comment carousel"><DemoComments /></Section>
     <Section title="Liquid glass tokens"><div className="glass-surface rounded-panel p-6"><p className="text-base">Neutral glass for navigation, panels and dialogs.</p><p className="mt-3 text-sm text-muted-foreground">68% surface tint · 20 px blur · 120% saturation. Reading surfaces stay opaque.</p></div></Section>
     <Section title="Usage"><pre className="whitespace-pre-wrap break-words rounded-md bg-secondary p-4 text-sm leading-relaxed">{`import { Button } from '@want-foundation/desyst-react';

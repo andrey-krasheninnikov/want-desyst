@@ -7,14 +7,14 @@ Shared design foundations and UI kits for Want products across web and mobile.
 - @want-foundation/desyst-foundation: JSON tokens, compiled CSS, local fonts, brand assets and opt-in browser effects.
 - @want-foundation/desyst-react: React 19 primitives and generic product compositions built on Radix.
 
-Both packages use version 0.1.1 for the first public npm release. Keep their versions aligned. The first theme preserves Want Wallpapers; Flutter and other adapters can consume the foundation later.
+Both packages use version 0.1.2. Keep their versions aligned. The first theme preserves Want Wallpapers; Flutter and other adapters can consume the foundation later.
 
 ## Install a release
 
 For a published release, install the matching versions:
 
 ```sh
-npm install @want-foundation/desyst-foundation@0.1.1 @want-foundation/desyst-react@0.1.1 react@^19 react-dom@^19
+npm install @want-foundation/desyst-foundation@0.1.2 @want-foundation/desyst-react@0.1.2 react@^19 react-dom@^19
 ```
 
 Import the stylesheet once in the application's entry point. The font stylesheet is optional and serves its font files locally.
@@ -46,6 +46,8 @@ Foundation exports its tokens as JSON at @want-foundation/desyst-foundation/toke
 React exports the existing accordion, alert, badge, breadcrumb, button, card, dialog, field, input, label, navigation menu, radio group, select, separator, sheet, skeleton, switch, tabs and textarea families. Their public variants and native element props remain available.
 
 Shared compositions are BrandLogo, BrandLockup, MediaCard, ContactCard, ThemeToggle and CommentFeed. Each exports its props type. Supply product names, images, labels, URLs, prepared comment authors and dates, and action callbacks. CommentFeed does not fetch, reorder or limit records. Optional createdAt contains a machine-readable dateTime and a consumer-prepared label, so SSR and hydration use the same text. ThemeToggle is controlled through theme and onThemeChange; consumers own saved preferences, system-theme subscriptions and telemetry.
+
+DateField accepts a local date (YYYY-MM-DD) or local date and time (YYYY-MM-DDTHH:mm) without changing its wall time. Pass mode, value, onChange, locale and every label in DateFieldLabels. The optional today value lets the consumer supply the current time in its chosen time zone. onCommit fires when a changed value is selected or the calendar closes. The consumer owns storage and conversion to server timestamps. UrlField accepts a controlled URL string and an accessible openLabel. OpenUrl renders a new-tab link only for HTTP(S) URLs. Window renders a page section with a named heading, optional kicker and actions, and consumer content.
 
 Set data-theme="light" or data-theme="dark" on the document root for explicit selection. Also toggle the dark class for class-based Tailwind states. Without an explicit choice, the stylesheet follows the system color preference.
 
@@ -84,7 +86,7 @@ The Astro showcase lives in apps/showcase and uses local fixtures. Browser check
 
 ## Release
 
-Build and verify the final candidate before publishing. Inspect both tarballs, keep only distribution files and license notices, and publish foundation before React with public access. Use the repository release tag v0.1.1 for the initial release. Never overwrite a published version; reconcile a registry response before retrying a timed-out publish.
+Build and verify the final candidate before publishing. Inspect both tarballs, keep only distribution files and license notices, and publish foundation before React with public access. Use the repository release tag v0.1.2 for this release. Never overwrite a published version; reconcile a registry response before retrying a timed-out publish.
 
 The npm organization is want-foundation. Publishing requires a signed-in owner with the required npm authentication. Credentials never belong in source files. Registry availability is confirmed as part of release, separately from the source merge.
 
