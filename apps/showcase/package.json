@@ -1,5 +1,5 @@
 {
-  "name": "@want-desyst/showcase",
+  "name": "@want-foundation/desyst-showcase",
   "private": true,
   "type": "module",
   "scripts": {
@@ -9,8 +9,8 @@
     "check": "astro check"
   },
   "dependencies": {
-    "@want-desyst/foundation": "workspace:*",
-    "@want-desyst/react": "workspace:*",
+    "@want-foundation/desyst-foundation": "workspace:*",
+    "@want-foundation/desyst-react": "workspace:*",
     "astro": "^5.16.0",
     "@astrojs/react": "^4",
     "react": "^19",

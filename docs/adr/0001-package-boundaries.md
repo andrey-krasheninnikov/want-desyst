@@ -10,4 +10,4 @@ Product themes remain separate from application workflows. The first theme prese
 
 The Astro showcase uses local fixtures and public package imports. It supplies a local theme controller and examples; it does not connect to wallpapers services.
 
-The initial release is 0.1.0 under @want-desyst. Other framework adapters, including Flutter, can consume the foundation tokens later. They are outside the first migration. Changes to public exports and observable behavior require a version and migration notes.
+The first public npm release is 0.1.1 as @want-foundation/desyst-foundation and @want-foundation/desyst-react. The existing v0.1.0 source tag remains unchanged. Other framework adapters, including Flutter, can consume the foundation tokens later. They are outside the first migration. Changes to public exports and observable behavior require a version and migration notes.

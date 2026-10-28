@@ -1,24 +1,24 @@
 import React, { useState } from 'react';
 import { Download, Info } from 'lucide-react';
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@want-desyst/react';
-import { Alert, AlertDescription, AlertTitle } from '@want-desyst/react';
-import { Badge } from '@want-desyst/react';
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@want-desyst/react';
-import { Button } from '@want-desyst/react';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@want-desyst/react';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@want-desyst/react';
-import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@want-desyst/react';
-import { Input } from '@want-desyst/react';
-import { Label } from '@want-desyst/react';
-import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '@want-desyst/react';
-import { RadioGroup, RadioGroupItem } from '@want-desyst/react';
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@want-desyst/react';
-import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@want-desyst/react';
-import { Skeleton } from '@want-desyst/react';
-import { Switch } from '@want-desyst/react';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@want-desyst/react';
-import { Textarea } from '@want-desyst/react';
-import { MediaCard as WallpaperCard, type MediaCardProps as WallpaperCardData } from '@want-desyst/react';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@want-foundation/desyst-react';
+import { Alert, AlertDescription, AlertTitle } from '@want-foundation/desyst-react';
+import { Badge } from '@want-foundation/desyst-react';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@want-foundation/desyst-react';
+import { Button } from '@want-foundation/desyst-react';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@want-foundation/desyst-react';
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@want-foundation/desyst-react';
+import { Field, FieldDescription, FieldError, FieldGroup, FieldLabel } from '@want-foundation/desyst-react';
+import { Input } from '@want-foundation/desyst-react';
+import { Label } from '@want-foundation/desyst-react';
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '@want-foundation/desyst-react';
+import { RadioGroup, RadioGroupItem } from '@want-foundation/desyst-react';
+import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from '@want-foundation/desyst-react';
+import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@want-foundation/desyst-react';
+import { Skeleton } from '@want-foundation/desyst-react';
+import { Switch } from '@want-foundation/desyst-react';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@want-foundation/desyst-react';
+import { Textarea } from '@want-foundation/desyst-react';
+import { MediaCard as WallpaperCard, type MediaCardProps as WallpaperCardData } from '@want-foundation/desyst-react';
 import { DemoContact, DemoComments } from './demos';
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
@@ -64,9 +64,9 @@ export default function UiKit({ item }: { item: WallpaperCardData }) {
     <Section title="Contact card"><DemoContact /></Section>
     <Section title="Comment carousel"><DemoComments /></Section>
     <Section title="Liquid glass tokens"><div className="glass-surface rounded-panel p-6"><p className="text-base">Neutral glass for navigation, panels and dialogs.</p><p className="mt-3 text-sm text-muted-foreground">68% surface tint · 20 px blur · 120% saturation. Reading surfaces stay opaque.</p></div></Section>
-    <Section title="Usage"><pre className="whitespace-pre-wrap break-words rounded-md bg-secondary p-4 text-sm leading-relaxed">{`import { Button } from '@want-desyst/react';
-import { Field, FieldLabel } from '@want-desyst/react';
-import { Input } from '@want-desyst/react';
+    <Section title="Usage"><pre className="whitespace-pre-wrap break-words rounded-md bg-secondary p-4 text-sm leading-relaxed">{`import { Button } from '@want-foundation/desyst-react';
+import { Field, FieldLabel } from '@want-foundation/desyst-react';
+import { Input } from '@want-foundation/desyst-react';
 
 <Button variant="secondary">View wallpaper</Button>
 <Field>

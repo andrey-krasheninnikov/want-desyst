@@ -20,11 +20,11 @@
       },
     },
     "apps/showcase": {
-      "name": "@want-desyst/showcase",
+      "name": "@want-foundation/desyst-showcase",
       "dependencies": {
         "@astrojs/react": "^4",
-        "@want-desyst/foundation": "workspace:*",
-        "@want-desyst/react": "workspace:*",
+        "@want-foundation/desyst-foundation": "workspace:*",
+        "@want-foundation/desyst-react": "workspace:*",
         "astro": "^5.16.0",
         "lucide-react": "1.50.0",
         "react": "^19",
@@ -32,8 +32,8 @@
       },
     },
     "packages/foundation": {
-      "name": "@want-desyst/foundation",
-      "version": "0.1.0",
+      "name": "@want-foundation/desyst-foundation",
+      "version": "0.1.1",
       "devDependencies": {
         "@fontsource-variable/manrope": "5.2.8",
         "@fontsource-variable/noto-sans-arabic": "5.3.0",
@@ -42,10 +42,10 @@
       },
     },
     "packages/react": {
-      "name": "@want-desyst/react",
-      "version": "0.1.0",
+      "name": "@want-foundation/desyst-react",
+      "version": "0.1.1",
       "dependencies": {
-        "@want-desyst/foundation": "workspace:*",
+        "@want-foundation/desyst-foundation": "0.1.1",
         "class-variance-authority": "0.7.1",
         "clsx": "2.1.1",
         "lucide-react": "1.50.0",
@@ -547,11 +547,11 @@
 
     "@vscode/l10n": ["@vscode/l10n@0.0.18", "", {}, "sha512-KYSIHVmslkaCDyw013pphY+d7x1qV8IZupYfeIfzNA+nsaWHbn5uPuQRvdRFsa9zFzGeudPuoGoZ1Op4jrJXIQ=="],
 
-    "@want-desyst/foundation": ["@want-desyst/foundation@workspace:packages/foundation"],
+    "@want-foundation/desyst-foundation": ["@want-foundation/desyst-foundation@workspace:packages/foundation"],
 
-    "@want-desyst/react": ["@want-desyst/react@workspace:packages/react"],
+    "@want-foundation/desyst-react": ["@want-foundation/desyst-react@workspace:packages/react"],
 
-    "@want-desyst/showcase": ["@want-desyst/showcase@workspace:apps/showcase"],
+    "@want-foundation/desyst-showcase": ["@want-foundation/desyst-showcase@workspace:apps/showcase"],
 
     "acorn": ["acorn@8.19.0", "", { "bin": { "acorn": "bin/acorn" } }, "sha512-oJlA3XiRm7Cyk6qFD2Jn8ak9B7jSy0qy00ADO3+8dpT0LSjFihQYv4C02LFCSYJV3Q37xYwwRy5m+IpIiUzqWw=="],
 
