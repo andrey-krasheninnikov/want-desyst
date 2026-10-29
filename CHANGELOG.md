@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.2.1
+
+### Fixed
+
+- Preserve years 0001–0099 in DateField calendar navigation and formatting.
+- Keep navigation and selection within 0001-01-01 through 9999-12-31, with focus on the selected day when opening the calendar. Public props remain unchanged.
+
 ## 0.2.0
 
 ### Added
