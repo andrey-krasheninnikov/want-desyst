@@ -1,6 +1,10 @@
-export function initBackgroundMotion({ background, control, storageKey = 'want-background-motion' }: {
-  background: HTMLElement; control: HTMLButtonElement; storageKey?: string;
+export function initBackgroundMotion({ background, control, storageKey = 'want-background-motion', shimmerDelayMs = [8000, 18000] }: {
+  background: HTMLElement; control: HTMLButtonElement; storageKey?: string; shimmerDelayMs?: readonly [number, number];
 }) {
+  const [minimum, maximum] = shimmerDelayMs;
+  if (!Number.isFinite(minimum) || !Number.isFinite(maximum) || minimum < 0 || maximum < minimum || maximum > 2147483647) {
+    throw new RangeError('shimmerDelayMs must contain ordered finite delays between 0 and 2147483647 ms');
+  }
   const root = document.documentElement;
   const sphere = background?.firstElementChild;
   if (!sphere) return () => {};
@@ -11,13 +15,17 @@ export function initBackgroundMotion({ background, control, storageKey = 'want-b
   let timer: ReturnType<typeof setTimeout> | undefined;
   try { paused = localStorage.getItem(storageKey) === 'paused'; } catch {}
   const stop = () => { clearTimeout(timer); timer = undefined; };
+  const shimmer = () => {
+    if (disposed || root.dataset.backgroundMotion !== 'running') return;
+    stop();
+    background.dataset.backgroundShimmer = '';
+    const wave = sphere.getAnimations({ subtree: true }).find(item => (item as CSSAnimation).animationName === 'want-gradient-shimmer');
+    if (wave) wave.currentTime = 0;
+  };
   const schedule = () => {
     stop();
     if (!disposed && root.dataset.backgroundMotion === 'running' && !background.hasAttribute('data-background-shimmer')) {
-      timer = setTimeout(() => {
-        timer = undefined;
-        if (!disposed && root.dataset.backgroundMotion === 'running') background.dataset.backgroundShimmer = '';
-      }, 8000 + Math.random() * 10000);
+      timer = setTimeout(shimmer, minimum + Math.random() * (maximum - minimum));
     }
   };
   const resize = () => {
@@ -56,6 +64,7 @@ export function initBackgroundMotion({ background, control, storageKey = 'want-b
   };
   control.addEventListener('click', toggle);
   background.addEventListener('animationend', finish);
+  background.addEventListener('want:background-shimmer', shimmer);
   document.addEventListener('visibilitychange', update);
   reduced.addEventListener('change', update);
   forced.addEventListener('change', update);
@@ -72,6 +81,7 @@ export function initBackgroundMotion({ background, control, storageKey = 'want-b
     observer.disconnect();
     control.removeEventListener('click', toggle);
     background.removeEventListener('animationend', finish);
+    background.removeEventListener('want:background-shimmer', shimmer);
     document.removeEventListener('visibilitychange', update);
     reduced.removeEventListener('change', update);
     forced.removeEventListener('change', update);

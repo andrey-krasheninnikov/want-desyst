@@ -1,0 +1,46 @@
+import { expect, test } from '@playwright/test';
+
+test('custom background interval and manual waves preserve phases and pause rules', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'no-preference' });
+  await page.addInitScript(() => { Math.random = () => 0; });
+  await page.goto('/');
+  await expect(page.locator('astro-island[ssr]')).toHaveCount(0);
+  const background = page.locator('.page-background');
+  const control = page.locator('[data-background-toggle]');
+  const preview = page.getByRole('button', { name: 'Preview background wave', exact: true });
+  await page.clock.install();
+  await control.click();
+  await preview.click();
+  await expect(background).not.toHaveAttribute('data-background-shimmer');
+  await control.click();
+  await page.clock.fastForward(4999);
+  await expect(background).not.toHaveAttribute('data-background-shimmer');
+  await page.clock.fastForward(1);
+  await expect(background).toHaveAttribute('data-background-shimmer', '');
+  await preview.click();
+  const phases = await background.evaluate(element => {
+    const animations = element.getAnimations({ subtree: true }) as CSSAnimation[];
+    const wave = animations.find(animation => animation.animationName === 'want-gradient-shimmer')!;
+    wave.currentTime = 1500;
+    const steady = animations.filter(animation => animation !== wave);
+    const before = steady.map(animation => Number(animation.currentTime));
+    element.dispatchEvent(new Event('want:background-shimmer'));
+    return { wave: Number(wave.currentTime), before, after: steady.map(animation => Number(animation.currentTime)) };
+  });
+  expect(phases.wave).toBe(0);
+  expect(phases.after).toEqual(phases.before);
+  await background.evaluate(element => (element.getAnimations({ subtree: true }) as CSSAnimation[]).find(animation => animation.animationName === 'want-gradient-shimmer')!.finish());
+  await expect(background).not.toHaveAttribute('data-background-shimmer');
+  await page.clock.fastForward(4999);
+  await expect(background).not.toHaveAttribute('data-background-shimmer');
+  await preview.click();
+  await expect(background).toHaveAttribute('data-background-shimmer', '');
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await expect(background).not.toHaveAttribute('data-background-shimmer');
+  await preview.click();
+  await expect(background).not.toHaveAttribute('data-background-shimmer');
+  await page.emulateMedia({ reducedMotion: 'no-preference', forcedColors: 'active' });
+  await expect(background).toBeHidden();
+  await preview.click();
+  await expect(background).not.toHaveAttribute('data-background-shimmer');
+});
