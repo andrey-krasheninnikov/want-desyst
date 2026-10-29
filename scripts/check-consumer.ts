@@ -14,7 +14,7 @@ try {
     const output: unknown = JSON.parse(run('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', directory], resolve(root, 'packages', name)));
     assert(Array.isArray(output) && output.length === 1);
     const record = output[0];
-    assert(record && record.filename === 'want-foundation-desyst-' + name + '-0.2.0.tgz');
+    assert(record && record.filename === 'want-foundation-desyst-' + name + '-0.2.1.tgz');
     assert(Array.isArray(record.files));
     for (const file of record.files) {
       assert(typeof file.path === 'string' && !file.path.includes('..') && !file.path.startsWith('/'));
