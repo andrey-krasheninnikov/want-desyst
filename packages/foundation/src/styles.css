@@ -30,6 +30,9 @@
 [dir="rtl"] [data-slot="switch-thumb"][data-state="checked"]{ translate: -1.5rem 0; }
 [dir="rtl"] [data-slot="switch-thumb"][data-state="unchecked"]{ translate: -.25rem 0; }
 @import "./tailwind.css";
+@import "./motion.css";
+@import "./components.css";
+@import "./visual.css";
 @layer base{
   html { scroll-behavior: auto; scroll-padding-top: 6rem; }
   body { margin: 0; min-width: 320px; background: var(--background); color: var(--foreground); font-family: var(--font-sans); font-synthesis: none; }
@@ -49,12 +52,12 @@
 .ui-tabs-trigger{ @apply relative inline-flex h-[calc(100%-1px)] flex-1 items-center justify-center gap-1.5 rounded-md px-2 py-1 text-sm font-medium whitespace-nowrap text-muted-foreground transition-colors duration-120; }
 .ui-tabs-list{ @apply inline-flex w-fit items-center justify-center rounded-lg p-[3px] text-muted-foreground; }
 .ui-tabs-base{ @apply flex gap-2; }
-.ui-navigation-link{ @apply flex flex-col gap-1 rounded-pill p-2 text-sm transition-colors duration-120 outline-none; }
+.ui-navigation-link{ @apply flex flex-col items-center justify-center text-center gap-1 rounded-pill p-2 text-sm transition-colors duration-120 outline-none; }
 .ui-select-trigger{ @apply flex min-h-11 w-fit items-center justify-between gap-2 rounded-md bg-secondary px-4 py-3 text-sm whitespace-nowrap shadow-none transition-colors duration-120 outline-none; }
 .ui-accordion-trigger{ @apply flex flex-1 items-start justify-between gap-4 rounded-md py-4 text-start text-sm font-medium transition-colors duration-120 outline-none; }
 .ui-button-base{ @apply inline-flex shrink-0 items-center justify-center gap-2 rounded-pill text-sm font-medium whitespace-normal transition-colors duration-120 outline-none; }
 .ui-button-default{ @apply bg-primary text-primary-foreground; }
-.ui-button-destructive{ @apply bg-destructive text-background; }
+.ui-button-destructive{ @apply bg-destructive text-destructive-foreground; }
 .ui-button-outline{ @apply bg-card; }
 .ui-button-secondary{ @apply bg-secondary text-secondary-foreground; }
 .ui-button-link{ @apply text-link underline-offset-4; }
@@ -66,7 +69,7 @@
 .ui-badge-base{ @apply inline-flex w-fit max-w-full shrink-0 items-center justify-center gap-1 rounded-pill px-3 py-1 text-sm font-medium whitespace-normal transition-colors duration-120; }
 .ui-badge-default{ @apply bg-primary text-primary-foreground; }
 .ui-badge-secondary{ @apply bg-secondary text-secondary-foreground; }
-.ui-badge-destructive{ @apply bg-destructive text-background; }
+.ui-badge-destructive{ @apply bg-destructive text-destructive-foreground; }
 .ui-badge-outline{ @apply bg-secondary text-foreground; }
 .ui-badge-link{ @apply text-link underline-offset-4; }
 .ui-card-base{ @apply flex flex-col gap-6 rounded-panel bg-card py-6 text-card-foreground shadow-none; }
@@ -144,7 +147,7 @@
 .comment-text{ white-space: pre-wrap; line-height: 1.7; overflow-wrap: anywhere; }
 .comment-actions{ display: flex; margin: .5rem 0 0 -.75rem; }
 .media-frame{ position: relative; overflow: hidden; }}
-:where(a, button, input, textarea, select, [role="radio"], [role="switch"], [role="tab"], [role="option"], .comment-feed):focus-visible {
+:where(a, button, input, textarea, select, summary, [role="radio"], [role="switch"], [role="tab"], [role="option"], .comment-feed):focus-visible {
   outline: 2px solid var(--ring);
   outline-offset: 3px;
   box-shadow: 0 0 0 5px var(--media-ground);

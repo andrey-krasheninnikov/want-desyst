@@ -13,7 +13,8 @@
     "test": "bun test tests",
     "test:ui": "playwright test",
     "test:consumer": "bun scripts/check-consumer.ts",
-    "dev": "bun run --cwd apps/showcase dev"
+    "dev": "bun run --cwd apps/showcase dev",
+    "skill:install": "node packages/foundation/dist/install-skill.js"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.5",

@@ -1,6 +1,6 @@
 import { build } from 'vite';
 import tailwindcss from '@tailwindcss/vite';
-import { mkdir, copyFile, cp, readFile, rm } from 'node:fs/promises';
+import { mkdir, copyFile, cp, readFile, rm, chmod } from 'node:fs/promises';
 import { resolve, dirname, basename } from 'node:path';
 import { themeCss } from './theme-css';
 
@@ -17,6 +17,10 @@ await build({
 });
 await cp(foundation + '/src/assets', foundation + '/dist/assets', { recursive: true });
 await copyFile(foundation + '/src/tailwind.css', foundation + '/dist/tailwind.css');
+await cp(resolve(root, 'skills/want-design'), foundation + '/dist/skill', { recursive: true });
+await copyFile(foundation + '/tokens.json', foundation + '/dist/skill/references/tokens.json');
+await copyFile(resolve(root, 'scripts/install-skill.mjs'), foundation + '/dist/install-skill.js');
+await chmod(foundation + '/dist/install-skill.js', 0o755);
 let fontCss = '';
 for (const name of ['@fontsource-variable/manrope', '@fontsource/days-one', '@fontsource-variable/noto-sans-jp', '@fontsource-variable/noto-sans-arabic']) {
   const entry = Bun.resolveSync(name, foundation);

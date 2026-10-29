@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Download, Info } from 'lucide-react';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@want-foundation/desyst-react';
 import { Alert, AlertDescription, AlertTitle } from '@want-foundation/desyst-react';
@@ -21,22 +21,22 @@ import { Textarea } from '@want-foundation/desyst-react';
 import { MediaCard as WallpaperCard, type MediaCardProps as WallpaperCardData } from '@want-foundation/desyst-react';
 import { DemoBriefElements, DemoContact, DemoComments } from './demos';
 
-function Section({ title, children }: { title: string; children: React.ReactNode }) {
-  return <section className="kit-section"><h2>{title}</h2>{children}</section>;
-}
+import { Section } from './Section';
+import { AdditionalDemos } from './AdditionalDemos';
+import { DemoTypography, VisualDemos } from './VisualDemos';
 
 const palette = [
   ['Background', '--background'], ['Card', '--card'], ['Secondary', '--secondary'],
   ['Foreground', '--foreground'], ['Muted text', '--muted-foreground'],
   ['Accent', '--accent'], ['Input', '--input'], ['Destructive', '--destructive'],
-  ['Primary hover', '--primary-hover'], ['Primary active', '--primary-active'], ['Primary', '--primary'], ['Text link', '--link'], ['Field focus', '--ring'],
+  ['Primary hover', '--primary-hover'], ['Primary active', '--primary-active'], ['Primary', '--primary'], ['Text link', '--link'], ['Field focus', '--ring'], ['Error', '--error'], ['Warning', '--warning'], ['Info', '--info'], ['Success', '--success'],
 ] as const;
 
 export default function UiKit({ item }: { item: WallpaperCardData }) {
   const [saved, setSaved] = useState(false);
   return <div className="kit-grid">
     <Section title="Palette"><div className="grid grid-cols-2 gap-4">{palette.map(([label, token]) => <div key={label}><div className="kit-swatch" style={{ backgroundColor: `var(${token})` }} /><p className="mt-2 text-sm">{label}<span className="block text-muted-foreground">{token}</span></p></div>)}</div></Section>
-    <Section title="Typography"><h3 className="hero-title">A screen worth keeping.</h3><p className="mt-6 text-base leading-relaxed text-muted-foreground">Days One carries headings. Manrope keeps labels and body text clear. System monospace gives indices and metadata a technical accent. Body text stays at 16 px, and controls keep at least 44 px of touch space.</p><p className="mt-4 text-sm text-muted-foreground">Panel 24 px · Prominent surface 32 px · Media 24 px · Input 12 px</p></Section>
+    <Section title="Typography"><DemoTypography /></Section>
     <Section title="Liquid glass"><Card className="glass-surface"><CardHeader><CardTitle>Compact action surface</CardTitle><CardDescription>Neutral glass keeps the logo accent for the primary action.</CardDescription></CardHeader><CardContent><p>Reading surfaces stay opaque. Reduced transparency uses an opaque fill.</p></CardContent><CardFooter><Button asChild><a href={item.href}>View wallpaper</a></Button></CardFooter></Card></Section>
     <Section title="Buttons"><div className="flex flex-wrap gap-3">{(['default', 'secondary', 'outline', 'ghost', 'link', 'destructive'] as const).map((variant) => <Button key={variant} variant={variant}>{variant}</Button>)}<Button disabled>Disabled</Button><Button disabled aria-busy="true">Saving…</Button><Button><Download data-icon="inline-start" />Download PNG</Button><Button size="icon" aria-label="Download example"><Download /></Button></div><p className="mt-4 text-sm text-muted-foreground">Tab through controls to inspect focus. Press to inspect tactile feedback.</p></Section>
     <Section title="Fields, input and textarea"><form onSubmit={(event) => { event.preventDefault(); setSaved(true); }}><FieldGroup>
@@ -65,6 +65,8 @@ export default function UiKit({ item }: { item: WallpaperCardData }) {
     <Section title="Date, URL and page layout"><DemoBriefElements /></Section>
     <Section title="Comment carousel"><DemoComments /></Section>
     <Section title="Liquid glass tokens"><div className="glass-surface rounded-panel p-6"><p className="text-base">Neutral glass for navigation, panels and dialogs.</p><p className="mt-3 text-sm text-muted-foreground">68% surface tint · 20 px blur · 120% saturation. Reading surfaces stay opaque.</p></div></Section>
+    <AdditionalDemos />
+    <VisualDemos />
     <Section title="Usage"><pre className="whitespace-pre-wrap break-words rounded-md bg-secondary p-4 text-sm leading-relaxed">{`import { Button } from '@want-foundation/desyst-react';
 import { Field, FieldLabel } from '@want-foundation/desyst-react';
 import { Input } from '@want-foundation/desyst-react';

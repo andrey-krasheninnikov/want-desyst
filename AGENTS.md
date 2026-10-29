@@ -17,6 +17,10 @@ See `docs/agents/triage-labels.md`.
 Use a single-context glossary and ADR layout.
 See `docs/agents/domain.md`.
 
+### Want interfaces
+
+For Want interface, component, and UI-copy work, use the repository skill at `skills/want-design/SKILL.md`.
+
 ## Implementation contracts
 
 Use Bun 1.3.14 and the root scripts. Work from the issue-specific persistent worktree. Read GLOSSARY.md, DESIGN.md and relevant docs/adr before changes.
