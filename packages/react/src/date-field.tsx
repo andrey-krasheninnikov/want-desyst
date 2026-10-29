@@ -36,8 +36,19 @@ function pad(value: number): string {
   return String(value).padStart(2, '0');
 }
 
+function calendarDate(year: number, month: number, day: number, hours = 0, minutes = 0): Date {
+  const date = new Date(0);
+  date.setUTCFullYear(year, month, day);
+  date.setUTCHours(hours, minutes, 0, 0);
+  return date;
+}
+
+function inRange(date: Date): boolean {
+  return date.getUTCFullYear() >= 1 && date.getUTCFullYear() <= 9999;
+}
+
 function dayKey(date: Date): string {
-  return date.getUTCFullYear() + '-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate());
+  return String(date.getUTCFullYear()).padStart(4, '0') + '-' + pad(date.getUTCMonth() + 1) + '-' + pad(date.getUTCDate());
 }
 
 function parseStamp(value: string): Date | null {
@@ -51,14 +62,14 @@ function parseStamp(value: string): Date | null {
   const date = new Date(0);
   date.setUTCFullYear(year, month - 1, day);
   date.setUTCHours(hours, minutes, 0, 0);
-  if (date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day
+  if (!inRange(date) || date.getUTCFullYear() !== year || date.getUTCMonth() !== month - 1 || date.getUTCDate() !== day
     || date.getUTCHours() !== hours || date.getUTCMinutes() !== minutes) return null;
   return date;
 }
 
 function localNow(): Date {
   const date = new Date();
-  return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes()));
+  return calendarDate(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes());
 }
 
 function stamp(date: Date, hours: number, minutes: number, mode: DateFieldProps['mode']): string {
@@ -67,21 +78,22 @@ function stamp(date: Date, hours: number, minutes: number, mode: DateFieldProps[
 }
 
 function monthStart(date: Date): Date {
-  return new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth(), 1));
+  return calendarDate(date.getUTCFullYear(), date.getUTCMonth(), 1);
 }
 
 function moveMonth(date: Date, delta: number): Date {
-  const first = new Date(Date.UTC(date.getUTCFullYear(), date.getUTCMonth() + delta, 1));
-  const lastDay = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 0)).getUTCDate();
-  return new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth(), Math.min(date.getUTCDate(), lastDay)));
+  const first = calendarDate(date.getUTCFullYear(), date.getUTCMonth() + delta, 1);
+  if (!inRange(first)) return date;
+  const lastDay = calendarDate(first.getUTCFullYear(), first.getUTCMonth() + 1, 0).getUTCDate();
+  return calendarDate(first.getUTCFullYear(), first.getUTCMonth(), Math.min(date.getUTCDate(), lastDay));
 }
 
 function calendarDays(cursor: Date): Date[] {
   const first = monthStart(cursor);
   const mondayOffset = (first.getUTCDay() + 6) % 7;
-  const start = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth(), 1 - mondayOffset));
+  const start = calendarDate(first.getUTCFullYear(), first.getUTCMonth(), 1 - mondayOffset);
   return Array.from({ length: 42 }, (_, index) =>
-    new Date(Date.UTC(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate() + index)));
+    calendarDate(start.getUTCFullYear(), start.getUTCMonth(), start.getUTCDate() + index));
 }
 
 export function DateField({ mode, value, onChange, onCommit, labels, locale, today, ariaLabel, disabled, className }: DateFieldProps) {
@@ -126,17 +138,18 @@ export function DateField({ mode, value, onChange, onCommit, labels, locale, tod
     const weekDay = (day.getUTCDay() + 6) % 7;
     let next: Date;
     switch (key) {
-      case 'ArrowLeft': next = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + (rtl ? 1 : -1))); break;
-      case 'ArrowRight': next = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + (rtl ? -1 : 1))); break;
-      case 'ArrowUp': next = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() - 7)); break;
-      case 'ArrowDown': next = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + 7)); break;
-      case 'Home': next = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() - weekDay)); break;
-      case 'End': next = new Date(Date.UTC(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + 6 - weekDay)); break;
+      case 'ArrowLeft': next = calendarDate(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + (rtl ? 1 : -1)); break;
+      case 'ArrowRight': next = calendarDate(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + (rtl ? -1 : 1)); break;
+      case 'ArrowUp': next = calendarDate(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() - 7); break;
+      case 'ArrowDown': next = calendarDate(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + 7); break;
+      case 'Home': next = calendarDate(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() - weekDay); break;
+      case 'End': next = calendarDate(day.getUTCFullYear(), day.getUTCMonth(), day.getUTCDate() + 6 - weekDay); break;
       case 'PageUp': next = moveMonth(day, -1); break;
       case 'PageDown': next = moveMonth(day, 1); break;
       default: return;
     }
     event.preventDefault();
+    if (!inRange(next)) return;
     setCursor(monthStart(next));
     setFocusedDay(next);
     requestAnimationFrame(() => {
@@ -161,7 +174,7 @@ export function DateField({ mode, value, onChange, onCommit, labels, locale, tod
   const days = calendarDays(cursor);
   const chosen = selected ? dayKey(selected) : '';
   const firstYear = Math.min(1920, cursor.getUTCFullYear());
-  const lastYear = Math.max(now.getUTCFullYear() + 2, cursor.getUTCFullYear());
+  const lastYear = Math.min(9999, Math.max(now.getUTCFullYear() + 2, cursor.getUTCFullYear()));
 
   return <Popover.Root open={open} onOpenChange={onOpenChange}>
     <div data-slot="date-field" className={className ? 'ui-date-field ' + className : 'ui-date-field'}>
@@ -171,23 +184,28 @@ export function DateField({ mode, value, onChange, onCommit, labels, locale, tod
         </Button>
       </Popover.Trigger>
       <Popover.Portal>
-        <Popover.Content ref={contentRef} data-slot="date-popover" className="ui-date-popover" sideOffset={8} collisionPadding={8} aria-label={labels.calendar}>
+        <Popover.Content ref={contentRef} data-slot="date-popover" className="ui-date-popover" sideOffset={8} collisionPadding={8} aria-label={labels.calendar}
+          onOpenAutoFocus={(event) => {
+            event.preventDefault();
+            contentRef.current?.querySelector<HTMLButtonElement>('[data-day="' + dayKey(focusedDay) + '"]')?.focus();
+          }}>
           <div className="ui-date-heading" aria-live="polite">
             {new Intl.DateTimeFormat(locale, { month: 'long', year: 'numeric', timeZone: 'UTC' }).format(cursor)}
           </div>
           <div className="ui-date-nav">
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousYear} onClick={() => navigateMonth(-12)}><ChevronsLeft aria-hidden="true" /></Button>
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousMonth} onClick={() => navigateMonth(-1)}><ChevronLeft aria-hidden="true" /></Button>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousYear} disabled={moveMonth(focusedDay, -12).getTime() === focusedDay.getTime()} onClick={() => navigateMonth(-12)}><ChevronsLeft aria-hidden="true" /></Button>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.previousMonth} disabled={moveMonth(focusedDay, -1).getTime() === focusedDay.getTime()} onClick={() => navigateMonth(-1)}><ChevronLeft aria-hidden="true" /></Button>
             <select className="ui-date-year" aria-label={labels.year} value={cursor.getUTCFullYear()} onChange={(event) => navigateMonth((Number(event.currentTarget.value) - cursor.getUTCFullYear()) * 12)}>
               {Array.from({ length: lastYear - firstYear + 1 }, (_, index) => firstYear + index).map((year) => <option key={year} value={year}>{year}</option>)}
             </select>
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextMonth} onClick={() => navigateMonth(1)}><ChevronRight aria-hidden="true" /></Button>
-            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextYear} onClick={() => navigateMonth(12)}><ChevronsRight aria-hidden="true" /></Button>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextMonth} disabled={moveMonth(focusedDay, 1).getTime() === focusedDay.getTime()} onClick={() => navigateMonth(1)}><ChevronRight aria-hidden="true" /></Button>
+            <Button type="button" variant="ghost" size="icon" aria-label={labels.nextYear} disabled={moveMonth(focusedDay, 12).getTime() === focusedDay.getTime()} onClick={() => navigateMonth(12)}><ChevronsRight aria-hidden="true" /></Button>
           </div>
           <table className="ui-date-grid">
             <thead><tr>{weekdays.map((day, index) => <th key={index} scope="col">{day}</th>)}</tr></thead>
             <tbody>{Array.from({ length: 6 }, (_, row) =>
-              <tr key={row}>{days.slice(row * 7, row * 7 + 7).map((day) => {
+              <tr key={row}>{days.slice(row * 7, row * 7 + 7).map((day, index) => {
+                if (!inRange(day)) return <td key={index} />;
                 const key = dayKey(day);
                 return <td key={key}>
                   <button type="button" data-slot="date-day" data-day={key} className="ui-date-day"
