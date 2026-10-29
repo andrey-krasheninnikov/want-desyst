@@ -27,3 +27,5 @@ Toast and snackbar feedback form compact floating islands. The surface and copy 
 Loaders, shimmer and Glow expose pause controls through their props. Glow combines a broad ambient halo with two expanding waves, staggered by 1.8 seconds over a 3.6-second cycle. Animate wave transforms and opacity; keep the blur and shadow geometry static. Text changes and snackbar entry and exit use short state animations. Reduced transparency preserves Glow and its waves. Reduced motion disables animated loops and transitions; forced colors keep functional indicators while hiding decorative glow.
 
 The reusable Want interface skill lives in [skills/want-design/SKILL.md](skills/want-design/SKILL.md). Its references cover brand and UI, voice, motion, and React integration. Exact numeric values remain in the foundation tokens.
+
+Consumers may set background wave-delay bounds and request a wave through want:background-shimmer on the background container. Manual requests restart only the light wave, preserve the other animation phases and respect the same pause and accessibility state.

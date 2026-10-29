@@ -14,7 +14,7 @@ try {
     const output: unknown = JSON.parse(run('npm', ['pack', '--json', '--ignore-scripts', '--pack-destination', directory], resolve(root, 'packages', name)));
     assert(Array.isArray(output) && output.length === 1);
     const record = output[0];
-    assert(record && record.filename === 'want-foundation-desyst-' + name + '-0.2.0.tgz');
+    assert(record && record.filename === 'want-foundation-desyst-' + name + '-0.3.0.tgz');
     assert(Array.isArray(record.files));
     for (const file of record.files) {
       assert(typeof file.path === 'string' && !file.path.includes('..') && !file.path.startsWith('/'));
@@ -54,6 +54,8 @@ try {
   run('node', ['check.mjs']);
   await writeFile(join(directory, 'check.tsx'), [
     "import { Button, DateField, UrlField, Window, ThemeToggle, MediaCard, type DateFieldLabels, type ThemeToggleProps } from '@want-foundation/desyst-react';",
+    "import { initBackgroundMotion } from '@want-foundation/desyst-foundation';",
+    "const configureBackground = (background: HTMLElement, control: HTMLButtonElement) => initBackgroundMotion({ background, control, shimmerDelayMs: [5000, 10000] });",
     "const theme: ThemeToggleProps = { theme: 'dark', label: 'Theme', onThemeChange: value => console.log(value) };",
     "const control = <Button variant='secondary' onClick={event => { event.currentTarget.disabled = true; }}>Continue</Button>;",
     "const toggle = <ThemeToggle {...theme} />;",

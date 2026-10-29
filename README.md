@@ -7,14 +7,14 @@ Shared design foundations and UI kits for Want products across web and mobile.
 - @want-foundation/desyst-foundation: JSON tokens, compiled CSS, local fonts, brand assets and opt-in browser effects.
 - @want-foundation/desyst-react: React 19 primitives and generic product compositions built on Radix.
 
-Both packages use version 0.2.0. Keep their versions aligned. The first theme preserves Want Wallpapers; Flutter and other adapters can consume the foundation later.
+Both packages use version 0.3.0. Keep their versions aligned. The first theme preserves Want Wallpapers; Flutter and other adapters can consume the foundation later.
 
 ## Install a release
 
 For a published release, install the matching versions:
 
 ```sh
-npm install @want-foundation/desyst-foundation@0.2.0 @want-foundation/desyst-react@0.2.0 react@^19 react-dom@^19
+npm install @want-foundation/desyst-foundation@0.3.0 @want-foundation/desyst-react@0.3.0 react@^19 react-dom@^19
 ```
 
 Import the stylesheet once in the application's entry point. The font stylesheet is optional and serves its font files locally.
@@ -42,7 +42,7 @@ The reusable skill in [skills/want-design/SKILL.md](skills/want-design/SKILL.md)
 From the target project's root, install the skill with Node.js and npm:
 
 ```sh
-npx --yes --package=@want-foundation/desyst-foundation@0.2.0 want-design-install
+npx --yes --package=@want-foundation/desyst-foundation@0.3.0 want-design-install
 ```
 
 This creates `.agents/skills/want-design` in the current directory. The published skill includes its references and a token snapshot, so it does not need this repository afterward.
@@ -50,7 +50,7 @@ This creates `.agents/skills/want-design` in the current directory. The publishe
 For a personal installation shared across projects:
 
 ```sh
-npx --yes --package=@want-foundation/desyst-foundation@0.2.0 want-design-install --global
+npx --yes --package=@want-foundation/desyst-foundation@0.3.0 want-design-install --global
 ```
 
 This uses `~/.agents/skills/want-design`. Use `--dest PATH` instead of `--global` to select another parent skills directory; `want-design` is appended to that path. Quote paths containing spaces. `--help` lists the options. The installer does not change project configuration or install UI dependencies.
@@ -90,7 +90,8 @@ Set data-theme="light" or data-theme="dark" on the document root for explicit se
 import { initInteractionEffects, burstConfetti, initBackgroundMotion } from '@want-foundation/desyst-foundation';
 
 const disposeInteractions = initInteractionEffects();
-const disposeBackground = initBackgroundMotion({ background, control });
+const disposeBackground = initBackgroundMotion({ background, control, shimmerDelayMs: [5000, 10000] });
+background.dispatchEvent(new Event('want:background-shimmer'));
 const disposeConfetti = burstConfetti(clickedElement);
 
 // Dispose when the owning page unmounts.
@@ -100,6 +101,8 @@ disposeConfetti();
 ```
 
 The background container uses the page-background class with one child element. The control supplies data-pause-label and data-play-label. Mount it outside the content flow inside a positioned, clipped page wrapper. The default storage key is want-background-motion; storageKey may override it. Keep this decoration outside administration and reading surfaces.
+
+The optional shimmerDelayMs pair sets the minimum and maximum pause between waves in milliseconds; the default remains [8000, 18000]. Delays must be finite, ordered and within 0 to 2147483647 ms. Dispatch want:background-shimmer on the background container to start or restart its four-second wave. Requests while paused, hidden, reduced-motion or forced-colors are ignored. Restarting a wave preserves the sphere and gradient phases. The consumer owns click targets and hit testing. Cleanup removes the event listener and pending timers.
 
 Effects do not subscribe to application download events or start downloads. Call confetti beside the native download action. Reduced motion, unsuitable pointers and forced colors disable decorative interaction effects.
 
@@ -119,7 +122,7 @@ The Astro showcase lives in apps/showcase and uses local fixtures. Browser check
 
 ## Release
 
-Build and verify the final candidate before publishing. Inspect both tarballs, keep only distribution files and license notices, and publish foundation before React with public access. Use the repository release tag v0.2.0 for this release. Never overwrite a published version; reconcile a registry response before retrying a timed-out publish.
+Build and verify the final candidate before publishing. Inspect both tarballs, keep only distribution files and license notices, and publish foundation before React with public access. Use the repository release tag v0.3.0 for this release. Never overwrite a published version; reconcile a registry response before retrying a timed-out publish.
 
 The npm organization is want-foundation. Publishing requires a signed-in owner with the required npm authentication. Credentials never belong in source files. Registry availability is confirmed as part of release, separately from the source merge.
 

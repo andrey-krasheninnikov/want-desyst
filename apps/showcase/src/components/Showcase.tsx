@@ -20,7 +20,7 @@ export default function Showcase({ logo }: { logo: string }) {
     const interactions = initInteractionEffects();
     const background = document.querySelector<HTMLElement>('.page-background')!;
     const control = document.querySelector<HTMLButtonElement>('[data-background-toggle]')!;
-    const motion = initBackgroundMotion({ background, control });
+    const motion = initBackgroundMotion({ background, control, shimmerDelayMs: [5000, 10000] });
     return () => { interactions(); motion(); confetti.current(); media.removeEventListener('change', update); };
   }, []);
   function chooseTheme(value: 'light' | 'dark') {
@@ -39,6 +39,7 @@ export default function Showcase({ logo }: { logo: string }) {
       <div className="showcase-intro"><p className="showcase-index">WANT / DESIGN SYSTEM / 0.1</p><h1>Shared by design.</h1><p>Tokens, accessible controls and product compositions. Local examples, ready for independent consumers.</p></div>
       <section className="kit-section showcase-motion"><h2>Optional motion</h2><p>The background and interaction effects have explicit ownership and cleanup. System accessibility preferences take priority.</p>
         <div className="showcase-controls"><Button variant="secondary" data-background-toggle data-pause-label="Pause background glow" data-play-label="Resume background glow" hidden>Pause background glow</Button>
+        <Button variant="secondary" onClick={() => document.querySelector('.page-background')?.dispatchEvent(new Event('want:background-shimmer'))}>Preview background wave</Button>
         <Button onClick={event => { confetti.current(); confetti.current = burstConfetti(event.currentTarget); }}>Preview confetti</Button></div>
       </section>
       <div id="components"><UiKit item={{ href: '#main', title: 'Violet Horizon', caption: 'Local demonstration artwork', index: 1, image: { src: '/sample.svg', width: 1600, height: 900, alt: 'Violet ridge against a graphite background' } }} /></div>
