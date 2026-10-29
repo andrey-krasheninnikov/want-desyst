@@ -14,4 +14,4 @@ Install the bundled brand, UI/UX, motion, composition, and product-voice skill f
 npx --yes --package=@want-foundation/desyst-foundation@0.2.0 want-design-install
 ```
 
-The default destination is `.agents/skills/want-design`. Add `--global` for `~/.agents/skills/want-design`, or `--dest PATH` for another parent skills directory. Matching installations are unchanged; different installations are never overwritten. See the [repository instructions](https://github.com/andrey-krasheninnikov/want-desyst/tree/v0.2.0#Want-design-skill) for invocation and updates.
+The default destination is `.agents/skills/want-design`. Add `--global` for `~/.agents/skills/want-design`, or `--dest PATH` for another parent skills directory. Matching installations are unchanged; different installations are never overwritten. See the [repository instructions](https://github.com/andrey-krasheninnikov/want-desyst/tree/v0.2.0#want-design-skill) for invocation and updates.
