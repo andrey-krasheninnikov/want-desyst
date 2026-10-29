@@ -1,5 +1,5 @@
 {
-  "version": "0.1.2",
+  "version": "0.2.0",
   "type": "module",
   "license": "MIT",
   "repository": {
@@ -37,5 +37,8 @@
     "@fontsource/days-one": "5.3.0",
     "@fontsource-variable/noto-sans-arabic": "5.3.0",
     "@fontsource-variable/noto-sans-jp": "5.3.1"
+  },
+  "bin": {
+    "want-design-install": "./dist/install-skill.js"
   }
 }

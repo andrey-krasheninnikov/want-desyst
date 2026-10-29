@@ -1,4 +1,21 @@
 @theme inline{
+  --color-error: var(--error);
+  --color-error-surface: var(--error-surface);
+  --color-error-foreground: var(--error-foreground);
+  --color-error-text: var(--error-text);
+  --color-warning: var(--warning);
+  --color-warning-surface: var(--warning-surface);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-warning-text: var(--warning-text);
+  --color-info: var(--info);
+  --color-info-surface: var(--info-surface);
+  --color-info-foreground: var(--info-foreground);
+  --color-info-text: var(--info-text);
+  --color-success: var(--success);
+  --color-success-surface: var(--success-surface);
+  --color-success-foreground: var(--success-foreground);
+  --color-success-text: var(--success-text);
+
   --font-mono: var(--want-font-mono);
   --font-display: var(--want-font-display);
   --font-sans: var(--want-font-sans);
@@ -17,6 +34,8 @@
   --color-accent: var(--accent);
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-text: var(--destructive-text);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

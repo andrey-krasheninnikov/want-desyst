@@ -58,6 +58,7 @@ function SheetContent({
       <SheetOverlay />
       <SheetPrimitive.Content
         data-slot="sheet-content"
+        data-side={side}
         className={cn(
           "fixed z-50 flex flex-col gap-4 bg-background shadow-lg",
           side === "right" &&

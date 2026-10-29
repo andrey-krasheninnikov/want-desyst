@@ -1,0 +1,40 @@
+@layer components {
+  @media (prefers-reduced-motion: no-preference) {
+    :is(.ui-button-base, .ui-date-day, .ui-open-url):not(:disabled) {
+      transition: background-color var(--motion-fast) var(--motion-ease), color var(--motion-fast), scale var(--motion-fast) var(--motion-ease);
+    }
+    :is(.ui-button-base, .ui-date-day, .ui-open-url):not(:disabled):not([aria-disabled="true"]):active { scale: .97; }
+    [data-slot="accordion-trigger"] > svg, [data-slot="select-trigger"] > svg {
+      transition: rotate var(--motion-transition) var(--motion-ease), transform var(--motion-transition) var(--motion-ease);
+    }
+    [data-slot="select-trigger"][data-state="open"] > svg { rotate: 180deg; }
+    [data-slot="radio-group-item"]::before { transition: background-color var(--motion-fast) var(--motion-ease); }
+    [data-slot="radio-group-indicator"][data-state="checked"] { animation: want-indicator-in var(--motion-fast) var(--motion-ease); }
+    [data-slot="switch-thumb"] { transition-duration: var(--motion-transition); transition-timing-function: var(--motion-ease); }
+    [data-slot="tabs-content"][data-state="active"] { animation: want-content-in var(--motion-transition) var(--motion-ease); }
+    [data-slot="accordion-content"][data-state="open"] { animation: want-accordion-in var(--motion-transition) var(--motion-ease); }
+    [data-slot="accordion-content"][data-state="closed"] { animation: want-accordion-out var(--motion-fast) ease-in; }
+    :is([data-slot="dialog-overlay"], [data-slot="sheet-overlay"])[data-state="open"] { animation: want-fade-in var(--motion-transition) ease-out; }
+    :is([data-slot="dialog-overlay"], [data-slot="sheet-overlay"])[data-state="closed"] { animation: want-fade-out var(--motion-fast) ease-in both; }
+    [data-slot="date-popover"] { transform-origin: var(--radix-popover-content-transform-origin); }
+    :is([data-slot="dialog-content"], [data-slot="select-content"], [data-slot="date-popover"])[data-state="open"] { animation: want-scale-in var(--motion-transition) var(--motion-ease); }
+    :is([data-slot="dialog-content"], [data-slot="select-content"], [data-slot="date-popover"])[data-state="closed"] { animation: want-scale-out var(--motion-fast) ease-in both; }
+    [data-slot="sheet-content"][data-side="right"] { --sheet-offset: 100% 0; }
+    [data-slot="sheet-content"][data-side="left"] { --sheet-offset: -100% 0; }
+    [data-slot="sheet-content"][data-side="top"] { --sheet-offset: 0 -100%; }
+    [data-slot="sheet-content"][data-side="bottom"] { --sheet-offset: 0 100%; }
+    [data-slot="sheet-content"][data-state="open"] { animation: want-sheet-in var(--motion-transition) var(--motion-ease); }
+    [data-slot="sheet-content"][data-state="closed"] { animation: want-sheet-out var(--motion-fast) ease-in both; }
+  }
+}
+
+@keyframes want-fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes want-fade-out { from { opacity: 1; } to { opacity: 0; } }
+@keyframes want-scale-in { from { opacity: 0; scale: .96; } to { opacity: 1; scale: 1; } }
+@keyframes want-scale-out { from { opacity: 1; scale: 1; } to { opacity: 0; scale: .96; } }
+@keyframes want-sheet-in { from { opacity: 0; translate: var(--sheet-offset); } to { opacity: 1; translate: 0 0; } }
+@keyframes want-sheet-out { from { opacity: 1; translate: 0 0; } to { opacity: 0; translate: var(--sheet-offset); } }
+@keyframes want-content-in { from { opacity: 0; translate: 0 4px; } to { opacity: 1; translate: 0 0; } }
+@keyframes want-indicator-in { from { opacity: 0; scale: .5; } to { opacity: 1; scale: 1; } }
+@keyframes want-accordion-in { from { height: 0; opacity: 0; } to { height: var(--radix-accordion-content-height); opacity: 1; } }
+@keyframes want-accordion-out { from { height: var(--radix-accordion-content-height); opacity: 1; } to { height: 0; opacity: 0; } }
